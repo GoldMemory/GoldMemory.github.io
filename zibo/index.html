@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../leafletLib/leaflet/leaflet.css">
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="../leafletLib/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="../jquery/jquery-3.0.0.min.js"></script>
+</head>
+<body>
+<div id="map"></div>
+<script type="text/javascript">
+    // var map = L.map('map', {
+    //         // crs: L.CRS.EPSG4326,
+    //         zoomControl: false,
+    //         editable:false,
+    //         attributionControl:false   //36.84436798095703, lng: 118.05590629577637
+    //     }).setView([36.84436798095703,118.05590629577637], 13);
+    //将图层加载到地图上，并设置最大的聚焦还有map样式
+    //添加电子地图影像
+    // var  vector_map=L.tileLayer("http://t{s}.tianditu.com/vec_c/wmts?layer=vec&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=98eff290e21d6db66e9c13dbdb490e9d", {
+    // var  vector_map=L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    //     maxZoom: 17,
+    //     minZoom: 3,
+    //     // subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+    // }).addTo(map);
+    //添加注记
+    // var vector_note=L.tileLayer("http://t{s}.tianditu.com/cva_c/wmts?layer=cva&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=98eff290e21d6db66e9c13dbdb490e9d", {
+    //     maxZoom: 17,
+    //     tileSize: 256,
+    //     zIndex:5,
+    //     minZoom: 3,
+    //     subdomains: ['0', '1', '2', '3', '4', '5', '6', '7']
+    // }).addTo(map);
+    window.onload=function () {
+        var map = L.map('map', {
+            zoomControl: false,
+            editable:false,
+            attributionControl:false
+        }).setView([36.84436798095703,118.05590629577637], 12);
+        var  vector_map=L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            minZoom: 3,
+        }).addTo(map);
+        $.getJSON('ZiHeDaDao_WGS84.json',function (res) {
+            console.log(res.features)
+            var myStyle = {
+                // "color": "#ff7800",
+                "color": "#ff0000",
+                "weight": 10,
+                // "opacity": 0.65
+            };
+            L.geoJSON(res, {
+                style: myStyle
+            }).addTo(map);
+        })
+        map.on('click',(evt)=>{
+            console.log(evt)
+        })
+    }
+
+</script>
+</body>
+</html>
